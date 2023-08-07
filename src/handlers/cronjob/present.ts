@@ -56,3 +56,6 @@ export const cronUpdateStatusReport = cronJob.schedule(
         timezone: 'Asia/Jakarta',
     }
 )
+
+cronProcedureInsertReport.start();
+cronUpdateStatusReport.start();
