@@ -130,7 +130,7 @@ export class PresentData {
       const [rows, fields] = await this.db.executeDql(
         `
         SELECT
-          nik, nama, DATE_FORMAT(clocking_time, '%Y-%m-%d %H:%m:%s') as clocking_time, category
+          id, nik, nama, DATE_FORMAT(clocking_time, '%Y-%m-%d %H:%m:%s') as clocking_time, category
         FROM
           report_present_ho
         WHERE DATE_FORMAT(created_at, '%Y-%m-%d') BETWEEN '${data['start_date']}'

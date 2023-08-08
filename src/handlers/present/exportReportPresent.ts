@@ -13,7 +13,7 @@ export const exportReportPresent = async (request: any, reply: any): Promise<voi
         const data = await PresentServices.reportByRangeDate(map.get("data"))
 
         const headings = [
-            ["Employee ID", "Name", "Clocking Time", "Category"]
+            ["User ID", "Employee ID", "Name", "Clocking Time", "Category"]
         ]
 
         const wb = XLSX.utils.book_new()
