@@ -12,7 +12,7 @@ export const cronUpdateStatusReport = cronJob.schedule(
         if (shelljs.exec(
             `node ${path.join(
                 __dirname,
-                './../../handlers/cronjob/present/updateExistReportPresent.js'
+                'updateExistReportPresent.js'
             )}`,
         ).code !== 0) {
             LoggersApp.error("Terjadi kesalahn cronjobs schedule update report present", {})

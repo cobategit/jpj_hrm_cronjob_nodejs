@@ -12,7 +12,7 @@ export const cronProcedureInsertReport = cronJob.schedule(
         if (shelljs.exec(
             `node ${path.join(
                 __dirname,
-                './../../handlers/cronjob/present/procedureInsertReportPresent.js'
+                'procedureInsertReportPresent.js'
             )}`,
         ).code !== 0) {
             LoggersApp.error("Terjadi kesalahn cronjobs schedule insert into report present", {})
