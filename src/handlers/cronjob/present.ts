@@ -3,8 +3,6 @@ import shelljs from 'shelljs'
 import path from 'path'
 import { LoggersApp } from '@jpj-common/module'
 
-const duration = 300000
-
 export const cronProcedureInsertReport = cronJob.schedule(
     `0 1 * * *`,
     () => {
@@ -23,7 +21,7 @@ export const cronProcedureInsertReport = cronJob.schedule(
 
         setTimeout(() => {
             return shelljs.exit(1)
-        }, duration)
+        }, 1200000)
     },
     {
         scheduled: true,
@@ -34,7 +32,7 @@ export const cronProcedureInsertReport = cronJob.schedule(
 export const cronUpdateStatusReport = cronJob.schedule(
     `30 1 * * *`,
     () => {
-        console.log('schedule insert into report present runnning...')
+        console.log('schedule update report present runnning...')
         LoggersApp.info('schedule update status report present runnning...', {})
 
         let child = shelljs.exec(
@@ -49,7 +47,7 @@ export const cronUpdateStatusReport = cronJob.schedule(
 
         setTimeout(() => {
             return shelljs.exit(1)
-        }, duration)
+        }, 1200000)
     },
     {
         scheduled: true,
