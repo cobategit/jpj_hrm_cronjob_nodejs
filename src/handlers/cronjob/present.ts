@@ -9,19 +9,24 @@ export const cronProcedureInsertReport = cronJob.schedule(
         console.log('schedule insert into report present runnning...')
         LoggersApp.info('schedule insert into report present runnning...', {})
 
-        let child = shelljs.exec(
+        // let child = shelljs.exec(
+        //     `node ${path.join(
+        //         __dirname,
+        //         './../present/procedureInsertReportPresent.js'
+        //     )}`,
+        //     {
+        //         async: true,
+        //     }
+        // )
+
+        if (shelljs.exec(
             `node ${path.join(
                 __dirname,
                 './../present/procedureInsertReportPresent.js'
             )}`,
-            {
-                async: true,
-            }
-        )
-
-        setTimeout(() => {
-            return shelljs.exit(1)
-        }, 1200000)
+        ).code !== 0) {
+            LoggersApp.error("Terjadi kesalahn cronjobs schedule insert into report present", {})
+        }
     },
     {
         scheduled: true,
@@ -35,19 +40,24 @@ export const cronUpdateStatusReport = cronJob.schedule(
         console.log('schedule update report present runnning...')
         LoggersApp.info('schedule update status report present runnning...', {})
 
-        let child = shelljs.exec(
+        // let child = shelljs.exec(
+        //     `node ${path.join(
+        //         __dirname,
+        //         './../present/updateExistReportPresent.js'
+        //     )}`,
+        //     {
+        //         async: true,
+        //     }
+        // )
+
+        if (shelljs.exec(
             `node ${path.join(
                 __dirname,
                 './../present/updateExistReportPresent.js'
             )}`,
-            {
-                async: true,
-            }
-        )
-
-        setTimeout(() => {
-            return shelljs.exit(1)
-        }, 1200000)
+        ).code !== 0) {
+            LoggersApp.error("Terjadi kesalahn cronjobs schedule update report present", {})
+        }
     },
     {
         scheduled: true,
