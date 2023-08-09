@@ -3,9 +3,10 @@ import shelljs from 'shelljs'
 import path from 'path'
 import { LoggersApp } from '@jpj-common/module'
 
-export const cronUpdateStatusReport = cronJob.schedule(
+const cronUpdateStatusReport = cronJob.schedule(
     `30 1 * * *`,
     () => {
+        LoggersApp.configureLogger()
         console.log('schedule update report present runnning...')
         LoggersApp.info('schedule update status report present runnning...', {})
 
@@ -15,6 +16,7 @@ export const cronUpdateStatusReport = cronJob.schedule(
                 'updateExistReportPresent.js'
             )}`,
         ).code !== 0) {
+            console.log('Terjadi kesalahn cronjobs schedule update report present...')
             LoggersApp.error("Terjadi kesalahn cronjobs schedule update report present", {})
         }
     },
@@ -24,4 +26,4 @@ export const cronUpdateStatusReport = cronJob.schedule(
     }
 )
 
-cronUpdateStatusReport.start();
+cronUpdateStatusReport.start()

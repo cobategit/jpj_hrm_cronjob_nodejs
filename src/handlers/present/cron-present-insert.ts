@@ -3,9 +3,10 @@ import shelljs from 'shelljs'
 import path from 'path'
 import { LoggersApp } from '@jpj-common/module'
 
-export const cronProcedureInsertReport = cronJob.schedule(
+const cronProcedureInsertReport = cronJob.schedule(
     `0 1 * * *`,
     () => {
+        LoggersApp.configureLogger()
         console.log('schedule insert into report present runnning...')
         LoggersApp.info('schedule insert into report present runnning...', {})
 
@@ -15,6 +16,7 @@ export const cronProcedureInsertReport = cronJob.schedule(
                 'procedureInsertReportPresent.js'
             )}`,
         ).code !== 0) {
+            console.log('Terjadi kesalahn cronjobs schedule insert into report present...')
             LoggersApp.error("Terjadi kesalahn cronjobs schedule insert into report present", {})
         }
     },
@@ -24,4 +26,4 @@ export const cronProcedureInsertReport = cronJob.schedule(
     }
 )
 
-cronProcedureInsertReport.start();
+cronProcedureInsertReport.start()
