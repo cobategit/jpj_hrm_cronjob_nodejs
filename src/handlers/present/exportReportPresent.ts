@@ -24,8 +24,8 @@ export const exportReportPresent = async (request: any, reply: any): Promise<voi
         XLSX.utils.sheet_add_aoa(ws, headings)
         XLSX.utils.book_append_sheet(wb, ws, 'Report Present')
 
-        const buffer = XLSX.write(wb, { bookType: 'xlsx', type: 'buffer' })
-        const filePath = `${process.env.SAVE_DOCS}/report-present-${request.query.start_date}sd${request.query.end_date}.xlsx`
+        const buffer = XLSX.write(wb, { bookType: 'xls', type: 'buffer' })
+        const filePath = `${process.env.SAVE_DOCS}/report-present-${request.query.start_date}sd${request.query.end_date}.xls`
         XLSX.writeFile(wb, filePath)
         reply.download(filePath)
 
