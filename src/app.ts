@@ -22,7 +22,10 @@ export const app = async () => {
     await server.register(express)
     server.register(fastifyAccepts)
     server.use(xss())
-    server.register(cors, {})
+    server.register(cors, {
+        credentials: true,
+        origin: true
+    })
     server.register(helmet, {
         contentSecurityPolicy: false,
         global: true,
