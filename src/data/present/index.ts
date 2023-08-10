@@ -1,5 +1,6 @@
 import { LoggersApp } from '@jpj-common/module'
 import { MysqlWrapData } from '..'
+import { whereAnd } from '../../utils'
 
 export class PresentData {
   private static db: MysqlWrapData = new MysqlWrapData()
@@ -32,7 +33,9 @@ export class PresentData {
     }
   }
 
-  public static async findExistMangkirByDate(date: string): Promise<any> {
+  public static async findExistMangkirByDate(date: string, nik?: string): Promise<any> {
+    let whereNik = await whereAnd(nik, "u.nik")
+
     try {
       const [rows, fields] = await this.db.executeDql(
         `select
@@ -44,7 +47,7 @@ export class PresentData {
                 LEFT JOIN ${process.env.TB_LEAVES} as l
                   on l.id_user_request = u.id
                   and l.start_leave_date = '${date}'
-              where l.no_leaves is not null`,
+              where l.no_leaves is not null ${whereNik}`,
         []
       )
 
@@ -55,7 +58,9 @@ export class PresentData {
     }
   }
 
-  public static async findExistCutiByDate(date: string): Promise<any> {
+  public static async findExistCutiByDate(date: string, nik?: string): Promise<any> {
+    let whereNik = await whereAnd(nik, "u.nik")
+
     try {
       const [rows, fields] = await this.db.executeDql(
         `SELECT  
@@ -69,7 +74,7 @@ export class PresentData {
           and l.status = 1
           AND l.start_leave_date <= '${date}'
           and l.end_leave_date >= '${date}'
-      where l.no_leaves is not null`,
+      where l.no_leaves is not null ${whereNik}`,
         []
       )
 
@@ -80,7 +85,9 @@ export class PresentData {
     }
   }
 
-  public static async findExistDinasByDate(date: string): Promise<any> {
+  public static async findExistDinasByDate(date: string, nik?: string): Promise<any> {
+    let whereNik = await whereAnd(nik, "u.nik")
+
     try {
       const [rows, fields] = await this.db.executeDql(
         `select
@@ -95,7 +102,7 @@ export class PresentData {
           ON gv.general_vendor_id = ps.id_user
           AND ps.date_from <= '${date}'
           AND ps.date_to >= '${date}'
-      WHERE ps.sa_no IS NOT NULL;`,
+      WHERE ps.sa_no IS NOT NULL ${whereNik};`,
         []
       )
 

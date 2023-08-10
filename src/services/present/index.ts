@@ -24,10 +24,10 @@ export class PresentServices {
     return res
   }
 
-  public static async existActivityPresent(data: any): Promise<any> {
-    const resMangkir = await PresentData.findExistMangkirByDate(data)
-    const resCuti = await PresentData.findExistCutiByDate(data)
-    const resDinas = await PresentData.findExistDinasByDate(data)
+  public static async existActivityPresent(date: string, nik?: string): Promise<any> {
+    const resMangkir = await PresentData.findExistMangkirByDate(date, nik)
+    const resCuti = await PresentData.findExistCutiByDate(date, nik)
+    const resDinas = await PresentData.findExistDinasByDate(date, nik)
 
     return {
       mangkir: resMangkir,

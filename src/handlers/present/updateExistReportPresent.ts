@@ -11,13 +11,11 @@ export const updateExistReportPresent = async () => {
     // const date = new Date("2023-08-04") // disesuaikan dengan hari pengambilan employee sedang cuti atau dinas atau mangkir
     const beforeOneDate = jumpDays("kurang", 1)
     const formatBeforeOneDate = `${format(beforeOneDate!, 'yyyy-MM-dd')}`
-    const map: Map<string, string> = new Map<string, string>()
     let arrNik: string[] = []
     let category: string = ""
     let status: number = 0
 
-    map.set("data", `${format(beforeOneDate!, 'yyyy-MM-dd')}`)
-    const resExistPresent = await PresentServices.existActivityPresent(map.get("data"))
+    const resExistPresent = await PresentServices.existActivityPresent(`${format(beforeOneDate!, 'yyyy-MM-dd')}`)
 
     if (resExistPresent['cuti'].length > 0) {
         category = "CUTI"
