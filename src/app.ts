@@ -27,10 +27,10 @@ export const app = async () => {
         contentSecurityPolicy: false,
         global: true,
     })
-    // server.register(fastifyStatic, {
-    //     root: path.join(process.cwd(), 'public'),
-    //     prefix: '/public',
-    // })
+    server.register(fastifyStatic, {
+        root: path.join(process.cwd(), 'public'),
+        prefix: '/public',
+    })
 
     const leaveRegister = PresentRoute()
     server.register(leaveRegister, {
