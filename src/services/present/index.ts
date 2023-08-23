@@ -1,6 +1,13 @@
 import { PresentData } from '../../data'
 
 export class PresentServices {
+
+  public static async findUsers() {
+    const users = await PresentData.selectUsers()
+
+    return users
+  }
+
   public static async procedureInsertIntoReport() {
     const resCheckIn = await PresentData.insertCheckInToReport()
     const resCheckOut = await PresentData.insertCheckOutToReport()
@@ -40,5 +47,15 @@ export class PresentServices {
     const res = await PresentData.findReportPresentByRangeDate(data)
 
     return res
+  }
+
+  public static async updateUserCuti(data: any) {
+    const resUser = await PresentData.selectUserCuti(data.id_user)
+
+    if (resUser.length > 0) {
+      await PresentData.updateCuti(data)
+    } else {
+      await PresentData.insertCuti(data)
+    }
   }
 }

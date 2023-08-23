@@ -26,4 +26,6 @@ const cronProcedureInsertReport = cronJob.schedule(
     }
 )
 
-cronProcedureInsertReport.start()
+export {
+    cronProcedureInsertReport
+}

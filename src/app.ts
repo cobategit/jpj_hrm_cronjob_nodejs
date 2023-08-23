@@ -10,6 +10,8 @@ import fastifyStatic from '@fastify/static'
 import path from 'path'
 import { ApiResponse, LoggersApp } from '@jpj-common/module'
 import { PresentRoute } from './routes'
+import { cronProcedureInsertReport } from './handlers/present/cron-present-insert'
+import { cronUpdateStatusReport } from './handlers/present/cron-present-update'
 
 export const app = async () => {
     dotenv.config({ path: path.join(__dirname, './../.env') })
@@ -39,6 +41,9 @@ export const app = async () => {
     server.register(leaveRegister, {
         prefix: `${process.env.PATH_URL}` + `/present`
     })
+
+    cronProcedureInsertReport.start()
+    cronUpdateStatusReport.start()
 
     server.get('/', (req: any, reply: any) => {
         if (req.accepts('html')) {

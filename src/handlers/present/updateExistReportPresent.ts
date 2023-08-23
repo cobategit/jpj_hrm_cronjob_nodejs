@@ -48,10 +48,9 @@ export const updateExistReportPresent = async () => {
     }
 
     if (arrNik.length > 0) {
-        const resUpdate = await PresentServices.updateExistPresent(arrNik, category, formatBeforeOneDate, status)
+        await PresentServices.updateExistPresent(arrNik, category, formatBeforeOneDate, status)
     }
 
-    // console.log(`update ${resUpdate[0]['changedRows']}`)
     LoggersApp.info("execute update exist report present", {})
 }
 

@@ -26,4 +26,6 @@ const cronUpdateStatusReport = cronJob.schedule(
     }
 )
 
-cronUpdateStatusReport.start()
+export {
+    cronUpdateStatusReport
+}

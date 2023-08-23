@@ -1,9 +1,33 @@
-import { LoggersApp } from '@jpj-common/module'
+import { AppError, LoggersApp } from '@jpj-common/module'
 import { MysqlWrapData } from '..'
 import { whereAnd } from '../../utils'
 
 export class PresentData {
   private static db: MysqlWrapData = new MysqlWrapData()
+
+  public static async selectUsers(): Promise<any> {
+    try {
+      const [rows, _] = await this.db.executeDql(
+        `
+        SELECT
+        u.id, u.nik, u.name, de.start_periode, uc.day
+      FROM
+        users AS u
+        INNER JOIN detail_employements AS de
+          ON u.id = de.id_user
+          AND de.status = 1
+        LEFT JOIN user_cuti AS uc
+          ON u.id = uc.id_user
+          ORDER BY u.name
+        `,
+        []
+      )
+
+      return rows
+    } catch (error) {
+      throw new AppError(500, false, 'Failed select all users', '500')
+    }
+  }
 
   public static async insertCheckInToReport(): Promise<any> {
     try {
@@ -15,7 +39,7 @@ export class PresentData {
         'Failed call procedure insert into checkin to report',
         error
       )
-      throw false
+      throw new AppError(500, false, 'error procedure insert in report', '500')
     }
   }
 
@@ -29,7 +53,7 @@ export class PresentData {
         'Failed call procedure insert into checkin to report',
         error
       )
-      throw false
+      throw new AppError(500, false, 'error procedure insert out report', '500')
     }
   }
 
@@ -37,7 +61,7 @@ export class PresentData {
     let whereNik = await whereAnd(nik, "u.nik")
 
     try {
-      const [rows, fields] = await this.db.executeDql(
+      const [rows, _] = await this.db.executeDql(
         `select
                 u.nik,
                 u.name,
@@ -54,7 +78,7 @@ export class PresentData {
       return rows
     } catch (error) {
       LoggersApp.error('Failed query exist mangkir by date', error)
-      throw false
+      throw new AppError(500, false, 'error find exist mangkir by date', '500')
     }
   }
 
@@ -62,7 +86,7 @@ export class PresentData {
     let whereNik = await whereAnd(nik, "u.nik")
 
     try {
-      const [rows, fields] = await this.db.executeDql(
+      const [rows, _] = await this.db.executeDql(
         `SELECT  
         u.nik,
         u.name,
@@ -81,7 +105,7 @@ export class PresentData {
       return rows
     } catch (error) {
       LoggersApp.error('Failed query exist cuti by date', error)
-      throw false
+      throw new AppError(500, false, 'error find exist cuti by date', '500')
     }
   }
 
@@ -89,7 +113,7 @@ export class PresentData {
     let whereNik = await whereAnd(nik, "u.nik")
 
     try {
-      const [rows, fields] = await this.db.executeDql(
+      const [rows, _] = await this.db.executeDql(
         `select
         u.id,
         u.nik,
@@ -109,7 +133,7 @@ export class PresentData {
       return rows
     } catch (error) {
       LoggersApp.error('Failed query exist dinas by date', error)
-      throw false
+      throw new AppError(500, false, 'error find exist dinas by date', '500')
     }
   }
 
@@ -128,13 +152,13 @@ export class PresentData {
       return res
     } catch (error) {
       LoggersApp.warn(`Failed update status report`, error)
-      throw false
+      throw new AppError(500, false, 'error update status report by nik date', '500')
     }
   }
 
   public static async findReportPresentByRangeDate(data: any): Promise<any> {
     try {
-      const [rows, fields] = await this.db.executeDql(
+      const [rows, _] = await this.db.executeDql(
         `
         SELECT
           id, nik, nama, DATE_FORMAT(clocking_time, '%m/%d/%Y %H:%m:%s') as clocking_time, category
@@ -148,7 +172,62 @@ export class PresentData {
       return rows
     } catch (error) {
       LoggersApp.error("Failed find report present by range date", error)
-      throw false
+      throw new AppError(500, false, 'error find report present by range date', '500')
+    }
+  }
+
+  public static async selectUserCuti(id: number): Promise<any> {
+    try {
+      const [rows, _] = await this.db.executeDql(
+        `
+        SELECT
+        u.id, u.nik, u.name, de.start_periode, uc.day
+      FROM
+        users AS u
+        INNER JOIN detail_employements AS de
+          ON u.id = de.id_user
+          AND de.status = 1
+        RIGHT JOIN user_cuti AS uc
+          ON u.id = uc.id_user
+          WHERE u.id = ?
+          ORDER BY u.name
+        `,
+        [id]
+      )
+
+      return rows
+    } catch (error) {
+      throw new AppError(500, false, 'Failed select all users', '500')
+    }
+  }
+
+  public static async insertCuti(data: any): Promise<any> {
+    try {
+      const res = await this.db.executeDml(
+        `
+        insert into user_cuti set ?
+        `,
+        [data]
+      )
+
+      return res
+    } catch (error) {
+      throw new AppError(500, false, 'failed update cuti', '500')
+    }
+  }
+
+  public static async updateCuti(data: any): Promise<any> {
+    try {
+      const res = await this.db.executeDml(
+        `
+        update user_cuti set day = ?, year = ? where id_user = ?
+        `,
+        [data.day, data.year, data.id_user]
+      )
+
+      return res
+    } catch (error) {
+      throw new AppError(500, false, 'failed update cuti', '500')
     }
   }
 }

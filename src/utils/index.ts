@@ -1,2 +1,2 @@
-export * from './jumpDay'
+export * from './date'
 export * from './query'
