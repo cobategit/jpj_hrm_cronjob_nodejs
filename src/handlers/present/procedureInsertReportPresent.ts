@@ -11,11 +11,10 @@ export const procedureInsertIntoReport = async () => {
     dotenv.config({ path: path.join(__dirname, './../../../.env') })
     LoggersApp.configureLogger()
     let res: Record<string, any> = {}
-    let date_now: Date = new Date()
-    let thirdty_date = jumpDays("kurang", 30, date_now)
+    const thirdty_date = jumpDays("kurang", 30, new Date())
     let mapDate: Map<string, Pick<ParamsEntity, 'start_date' | 'end_date'>> = new Map<string, Pick<ParamsEntity, 'start_date' | 'end_date'>>()
 
-    mapDate.set("data", { start_date: `${format(thirdty_date!, 'yyyy-MM-dd')}`, end_date: `${format(date_now, 'yyyy-MM-dd')}` })
+    mapDate.set("data", { start_date: `${format(thirdty_date!, 'yyyy-MM-dd')}`, end_date: `${format(new Date(), 'yyyy-MM-dd')}` })
     const blockDate = await HolidayServices.dateHoliday(mapDate.get("data")!)
     let convertBlockData: Set<string> = new Set(blockDate.map((val: any) => `${format(val.dates, 'yyyy-MM-dd')}`))
 
